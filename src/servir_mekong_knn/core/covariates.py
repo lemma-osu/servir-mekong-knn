@@ -52,11 +52,26 @@ class RealizationCollection:
         )
         return img.set({"src": d})
 
-    def static_image_from_year(self, year: int) -> ee.Image:
+    def first_image_from_year(self, year: int) -> ee.Image:
         img = _filter_by_year(self.collection, year).first().rename(self.name)
         d = ee.Dictionary(
             {
                 "id": img.get("system:id"),
+                "idx": 0,
+            }
+        )
+        return img.set({"src": d})
+
+    def mean_image_from_year(self, year: int) -> ee.Image:
+        fltr_coll = _filter_by_year(self.collection, year)
+        img = (
+            fltr_coll.map(lambda img: img.rename(self.name))
+            .reduce(ee.Reducer.mean())
+            .rename(self.name)
+        )
+        d = ee.Dictionary(
+            {
+                "id": f"{self.name}_mean",
                 "idx": 0,
             }
         )
@@ -97,7 +112,7 @@ class UncertaintyCollection:
         )
         return out_img.set({"src": d})
 
-    def static_image_from_year(self, year: int) -> ee.Image:
+    def first_image_from_year(self, year: int) -> ee.Image:
         out_img = self.filter_collection_by_year(year).first().rename(self.name)
         d = ee.Dictionary(
             {
@@ -116,7 +131,7 @@ class YearlyCollection:
     def filter_by_year(self, year: int) -> ee.ImageCollection:
         return _filter_by_year(self.collection, year)
 
-    def static_image_from_year(self, year: int) -> ee.Image:
+    def first_image_from_year(self, year: int) -> ee.Image:
         img = _filter_by_year(self.collection, year).first().rename(self.name)
         d = ee.Dictionary({"id": img.get("system:id")})
         return img.set({"src": d})
@@ -130,8 +145,11 @@ class CovariateCombinationFactory:
     def random_image_for_year(self, year: int) -> ee.Image:
         return self.to_bands(self.get_covariate_images(year, "random"))
 
-    def static_image_for_year(self, year: int) -> ee.Image:
-        return self.to_bands(self.get_covariate_images(year, "static"))
+    def first_image_for_year(self, year: int) -> ee.Image:
+        return self.to_bands(self.get_covariate_images(year, "first"))
+
+    def mean_image_for_year(self, year: int) -> ee.Image:
+        return self.to_bands(self.get_covariate_images(year, "mean"))
 
     def to_bands(self, collection: ee.ImageCollection) -> ee.Image:
         band_names = collection.toList(collection.size()).map(
@@ -166,8 +184,12 @@ class CovariateCombinationFactory:
         def get_realization_image(obj):
             c = RealizationCollection(obj.collection, obj.name)
             if method == "random":
-                return c.random_image_from_year(year)
-            return c.static_image_from_year(year)
+                img = c.random_image_from_year(year)
+            elif method == "first":
+                img = c.first_image_from_year(year)
+            elif method == "mean":
+                img = c.mean_image_from_year(year)
+            return img
 
         realization_coll = list(
             map(get_realization_image, covariates.realization_collections)
@@ -178,8 +200,10 @@ class CovariateCombinationFactory:
                 obj.collection, obj.uncertainty_collection, obj.name
             )
             if method == "random":
-                return c.random_image_from_year(year)
-            return c.static_image_from_year(year)
+                img = c.random_image_from_year(year)
+            elif method in {"first", "mean"}:
+                img = c.first_image_from_year(year)
+            return img
 
         uncertainty_coll = list(
             map(get_uncertainty_image, covariates.uncertainty_collections)
@@ -187,7 +211,7 @@ class CovariateCombinationFactory:
 
         def get_yearly_image(obj):
             c = YearlyCollection(obj.collection, obj.name)
-            return c.static_image_from_year(year)
+            return c.first_image_from_year(year)
 
         yearly_coll = list(map(get_yearly_image, covariates.yearly_collections))
 
@@ -219,16 +243,17 @@ class Covariates:
         return ee.List(list(range(num)))
 
     def get_realizations_for_year(
-        self, year: int, num: int, return_random: bool = True
+        self, year: int, num: int, return_type: str = "random"
     ) -> ee.ImageCollection:
         def get_realization_for_year(idx: int) -> ee.Image:
             idx = ee.Number(idx)
             ccf = CovariateCombinationFactory(self.config, True)
-            img = (
-                ccf.random_image_for_year(year)
-                if return_random
-                else ccf.static_image_for_year(year)
-            )
+            if return_type == "random":
+                img = ccf.random_image_for_year(year)
+            elif return_type == "first":
+                img = ccf.first_image_for_year(year)
+            elif return_type == "mean":
+                img = ccf.mean_image_for_year(year)
             return img.set({"year": year, "realization": idx.add(1)})
 
         return ee.ImageCollection(

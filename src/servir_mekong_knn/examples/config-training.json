@@ -1,0 +1,98 @@
+{
+  "covariates": {
+    "realization_collections": [
+      {
+        "name": "agg",
+        "collection": "projects/cemis-camp/assets/landcover/agg"
+      },
+      {
+        "name": "deciduous",
+        "collection": "projects/cemis-camp/assets/landcover/deciduous"
+      },
+      {
+        "name": "evergreen",
+        "collection": "projects/cemis-camp/assets/landcover/evergreen"
+      },
+      {
+        "name": "grassland",
+        "collection": "projects/cemis-camp/assets/landcover/grassland"
+      },
+      {
+        "name": "rice",
+        "collection": "projects/cemis-camp/assets/landcover/rice"
+      },
+      {
+        "name": "semiEvergreen",
+        "collection": "projects/cemis-camp/assets/landcover/semiEvergreen"
+      },
+      {
+        "name": "woodshrub",
+        "collection": "projects/cemis-camp/assets/landcover/woodshrub"
+      }
+    ],
+    "uncertainty_collections": [
+      {
+        "name": "tcc",
+        "collection": "projects/servir-mekong/UMD/tree_canopy",
+        "uncertainty_collection": "projects/servir-mekong/yearly_primitives_smoothed/tree_canopy_uncertainty"
+      },
+      {
+        "name": "tch",
+        "collection": "projects/servir-mekong/UMD/tree_height",
+        "uncertainty_collection": "projects/servir-mekong/yearly_primitives_smoothed/tree_height_uncertainty"
+      }
+    ],
+    "yearly_collections": [
+      {
+        "name": "floodedForest",
+        "collection": "projects/cemis-camp/assets/landcover/floodedForest_smoothed"
+      },
+      {
+        "name": "impervious",
+        "collection": "projects/cemis-camp/assets/landcover/imperv_smoothed"
+      },
+      {
+        "name": "plantations",
+        "collection": "projects/cemis-camp/assets/landcover/plantations_smoothed"
+      },
+      {
+        "name": "rubber",
+        "collection": "projects/cemis-camp/assets/landcover/rubberSmoothedv1"
+      },
+      {
+        "name": "water",
+        "collection": "projects/cemis-camp/assets/landcover/water_smoothed"
+      }
+    ],
+    "static_images": []
+  },
+  "species_fields": [
+    "Crop",
+    "Deciduous tree",
+    "Evergreen tree",
+    "Flooded tree (Fresh water)",
+    "Grass",
+    "Impervious surface",
+    "Mangrove tree",
+    "Mixed evergreen & Deciduous tree",
+    "Other (rock, sand, baren)",
+    "Palm oil",
+    "Plantation tree",
+    "Rice",
+    "Rubber tree",
+    "Water",
+    "Wetland",
+    "Woody shrub"
+  ],
+  "categorical_fields": ["LULC_TYPE_CODE", "SERVIR_PRIMITIVE_CODE"],
+  "plots": "users/gregorma/servir/plots/cambodia_2021_ceo_plots",
+  "p": 5,
+  "k": 10,
+  "methods": ["RAW", "EUC", "MAH", "MSN", "GNN"],
+  "year": 2019,
+  "nn_id_field": "PLOT_ID",
+  "year_field": "ASSESSMENT_YEAR",
+  "output_collection": "users/gregorma/servir/training/neighbors",
+  "output_fc_collection": "users/gregorma/servir/training/neighbors_fc",
+  "output_accuracy_statistics": "users/gregorma/servir/training/accuracy_fc"
+}

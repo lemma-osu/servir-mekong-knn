@@ -73,13 +73,16 @@ class ImageRunner:
 
 
 if __name__ == "__main__":
+    import sys
     import json
     from models import Config
 
-    with open(
-        "D:/code/gee-repos/python/servir-mekong-knn/src/servir_mekong_knn/"
-        "examples/config-training.json"
-    ) as fh:
+    # with open(
+    #     "D:/code/gee-repos/python/servir-mekong-knn/src/servir_mekong_knn/"
+    #     "examples/config-training.json"
+    # ) as fh:
+
+    with open(sys.argv[1]) as fh:
         config = Config.parse_obj(json.load(fh))
         runner = ImageRunner(config)
         rect = ee.Geometry.Rectangle([104.528, 12.235, 104.554, 12.262])

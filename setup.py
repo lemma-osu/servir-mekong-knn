@@ -10,6 +10,6 @@ setup(
     package_dir={"": "src"},
     include_package_data=True,
     description="Python based nearest neighbor mapping for SERVIR Mekong",
-    install_requires=["earthengine-api", "gee-knn"],
+    install_requires=["earthengine-api", "gee-knn-python"],
     # extras_require={"test": ["pytest", "pytest-cov", "tox"]},
 )

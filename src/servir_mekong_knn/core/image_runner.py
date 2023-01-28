@@ -1,9 +1,9 @@
 import ee
 
-from models import Config
-from covariates import Covariates
-from plots import Plots, PlotsWithCovariates
-from wrapper import Wrapper
+from servir_mekong_knn.core.models import Config
+from servir_mekong_knn.core.covariates import Covariates
+from servir_mekong_knn.core.plots import Plots, PlotsWithCovariates
+from servir_mekong_knn.core.wrapper import Wrapper
 
 ee.Initialize()
 
@@ -75,7 +75,6 @@ class ImageRunner:
 if __name__ == "__main__":
     import sys
     import json
-    from models import Config
 
     # with open(
     #     "D:/code/gee-repos/python/servir-mekong-knn/src/servir_mekong_knn/"

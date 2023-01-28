@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 import ee
-from models import Config
+from .models import Config
 
 ee.Initialize()
 

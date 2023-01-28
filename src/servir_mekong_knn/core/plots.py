@@ -1,7 +1,7 @@
 import ee
-from models import Config
-from covariates import Covariates
-from extract import extract_matching_year_signatures
+from .models import Config
+from .covariates import Covariates
+from .extract import extract_matching_year_signatures
 
 ee.Initialize()
 

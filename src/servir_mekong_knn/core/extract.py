@@ -2,7 +2,7 @@ import ee
 
 ee.Initialize()
 
-from covariates import Covariates
+from .covariates import Covariates
 
 
 def extract_signatures(

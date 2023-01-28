@@ -4,7 +4,7 @@ import ee
 from geeknn import ordination
 from geeknn.ordination.utils import Colocation
 
-from plots import Plots, PlotsWithCovariates
+from .plots import Plots, PlotsWithCovariates
 
 ee.Initialize()
 

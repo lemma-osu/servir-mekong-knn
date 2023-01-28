@@ -1,1 +1,1 @@
-gee-knn>=0.1.0
+gee-knn-python>=0.1.0

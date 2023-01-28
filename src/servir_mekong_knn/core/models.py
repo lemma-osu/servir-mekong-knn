@@ -7,6 +7,7 @@ from pydantic import BaseModel
 # TODO: in covariates.py.  Possibly combine the functionality. I'm
 # TODO: unclear how "clean" we should keep the pydantic models
 
+
 class RealizationCollection(BaseModel):
     name: str
     collection: str
@@ -43,7 +44,7 @@ class Config(BaseModel):
     species_fields: List[str]
     categorical_fields: List[str]
     plots: str
-    year: int
+    model_years: List[int]
     nn_id_field: str
     year_field: str
     output_collection: str

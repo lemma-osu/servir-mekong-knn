@@ -89,7 +89,7 @@
   "p": 5,
   "k": 10,
   "methods": ["RAW", "EUC", "MAH", "MSN", "GNN"],
-  "year": 2019,
+  "model_years": [2019],
   "nn_id_field": "PLOT_ID",
   "year_field": "ASSESSMENT_YEAR",
   "output_collection": "users/gregorma/servir/training/neighbors",

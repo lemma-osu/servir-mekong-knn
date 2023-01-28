@@ -26,18 +26,3 @@ class PlotsWithCovariates:
         return extract_matching_year_signatures(
             self.fc, covariates, self.year_field, 15.0
         )
-
-
-if __name__ == "__main__":
-    import json
-    from pprint import pprint
-
-    with open(
-        "D:/code/gee-repos/python/servir-mekong-knn/src/servir_mekong_knn/"
-        "examples/config-training.json"
-    ) as fh:
-        config = Config.parse_obj(json.load(fh))
-        plots = Plots(config)
-        covariates = Covariates(config)
-        plots_wc = PlotsWithCovariates(plots, covariates)
-        pprint(plots_wc.env_fc.first().getInfo())

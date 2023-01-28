@@ -46,29 +46,3 @@ def extract_matching_year_signatures(
     return ee.FeatureCollection(
         years.zip(covariates_by_year).map(process_year)
     ).flatten()
-
-
-if __name__ == "__main__":
-    import json
-    from models import Config
-
-    with open(
-        "D:/code/gee-repos/python/servir-mekong-knn/src/servir_mekong_knn/"
-        "examples/config-training.json"
-    ) as fh:
-        config = Config.parse_obj(json.load(fh))
-        covariates = Covariates(config)
-
-        # fc: ee.FeatureCollection,
-        # covariates: Covariates,
-        # year_attr: str,
-        # radius: float,
-        # scale: float = 30.0,
-
-        fc = ee.FeatureCollection(config.plots)
-        year_attr = config.year_field
-        radius = 15.0
-        foo = extract_matching_year_signatures(
-            fc, covariates, year_attr, radius
-        )
-        print(foo.first().getInfo())

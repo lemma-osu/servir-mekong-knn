@@ -259,17 +259,3 @@ class Covariates:
         return ee.ImageCollection(
             self._sequential_client_array(num).map(get_realization_for_year)
         )
-
-
-if __name__ == "__main__":
-    import json
-    from pprint import pprint
-
-    with open(
-        "D:/code/gee-repos/python/servir-mekong-knn/src/servir_mekong_knn/"
-        "examples/config-training.json"
-    ) as fh:
-        config = Config.parse_obj(json.load(fh))
-        foo = Covariates(config)
-        first_realization = foo.get_realizations_for_year(2017, 1).first()
-        pprint(first_realization.get("band_sources").getInfo())
